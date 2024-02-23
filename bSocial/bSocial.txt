@@ -41,5 +41,8 @@ docker run -p 3002:3002 --name bsocial-container bsocial-image
 docker build -t elasticsearch-image .
 docker run -p 3002:3002 --name elasticsearch-container elasticsearch-image
 
+docker-machine rm default
+docker-machine -D create -d virtualbox --virtualbox-memory 8096
+
 docker build -t notifications-image .
 docker run -p 3002:3002 --name elasticsearch-container notifications-image

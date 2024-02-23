@@ -14,7 +14,8 @@ const kafkaConsumerOptions = { groupId: 'your-group-id', autoCommit: true, autoC
 const kafkaConsumer = new kafka.ConsumerGroup(kafkaClientOptions, topics, kafkaConsumerOptions);
 
 // Elasticsearch Client setup
-const esClient = new Client({ node: 'http://localhost:9200', auth: { username: 'ilija', password: 'ilijaG' } });
+const esClient = new Client({ node: process.env.ELASTICSEARCH_HOST || 'http://localhost:9200', 
+                              auth: { username: process.env.ELASTICSEARCH_USERNAME || 'ilija', password: process.env.ELASTICSEARCH_PASSWORD ||'ilijaG' } });
 
 // Middleware for parsing JSON
 app.use(bodyParser.json());
