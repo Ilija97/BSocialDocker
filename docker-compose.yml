@@ -22,10 +22,10 @@ services:
 
   bsocial-microservice:
     build: ./bSocial
-    # image: bsocial-image
     depends_on:
       - kafka
       - zookeeper
+    command: ["dockerize", "-wait", "tcp://kafka:9092", "-timeout", "60s", "npm", "start"]
     ports:
       - "3000:3000"
     environment:
@@ -33,11 +33,10 @@ services:
 
   notifications-microservice:
     build: ./NotificationsMicroservice
-    # image: notifications-image
     depends_on:
       - kafka
       - zookeeper
-      - bsocial-microservice
+    command: ["dockerize", "-wait", "tcp://kafka:9092", "-timeout", "60s", "npm", "start"]
     ports:
       - "3001:3001"
     environment:
@@ -49,7 +48,8 @@ services:
     depends_on:
       - kafka
       - zookeeper
-      - bsocial-microservice
+      - elasticsearch
+    command: ["dockerize", "-wait", "tcp://elasticsearch:9200", "-timeout", "60s", "npm", "start"]
     ports:
       - "3002:3002"
     environment:

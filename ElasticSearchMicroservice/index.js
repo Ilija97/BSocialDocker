@@ -2,6 +2,7 @@ const kafka = require('kafka-node');
 const { Client } = require('@elastic/elasticsearch');
 const express = require('express');
 const bodyParser = require('body-parser');
+const axios = require('axios');
 
 const app = express();
 const port = 3002;
@@ -14,8 +15,19 @@ const kafkaConsumerOptions = { groupId: 'your-group-id', autoCommit: true, autoC
 const kafkaConsumer = new kafka.ConsumerGroup(kafkaClientOptions, topics, kafkaConsumerOptions);
 
 // Elasticsearch Client setup
-const esClient = new Client({ node: process.env.ELASTICSEARCH_HOST || 'http://localhost:9200', 
-                              auth: { username: process.env.ELASTICSEARCH_USERNAME || 'ilija', password: process.env.ELASTICSEARCH_PASSWORD ||'ilijaG' } });
+const elasticsearchHost = process.env.ELASTICSEARCH_HOST || 'http://localhost:9200';
+const username = process.env.ELASTICSEARCH_USERNAME || 'ilija';
+const password = process.env.ELASTICSEARCH_PASSWORD || 'ilijaG';
+const esClient = new Client({ node: elasticsearchHost, auth: { username: username, password: password } });
+
+const createIndex = async (indexName) => {
+  await esClient.indices.create({ index: indexName });
+  console.log("Index created");
+};
+
+createIndex('user');
+createIndex('post');
+createIndex('comment');
 
 // Middleware for parsing JSON
 app.use(bodyParser.json());

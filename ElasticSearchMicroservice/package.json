@@ -15,6 +15,7 @@
   "license": "MIT",
   "dependencies": {
     "@elastic/elasticsearch": "^8.12.1",
+    "axios": "^1.6.7",
     "express": "^4.18.2",
     "kafka-node": "^5.0.0"
   }
