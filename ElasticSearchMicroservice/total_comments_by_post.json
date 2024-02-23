@@ -1,0 +1,31 @@
+{
+    "size": 0,
+    "query": {
+      "range": {
+        "timestamp": {
+          "gte": "now-10d/d",
+          "lt": "now"
+        }
+      }
+    },
+    "aggs": {
+      "total_comments_by_post": {
+        "date_histogram": {
+          "field": "timestamp",
+          "fixed_interval": "1d", 
+          "format": "yyyy-MM-dd",
+          "order": { "_count": "desc" },
+          "min_doc_count": 1
+        },
+        "aggs": {
+          "total_comments": {
+            "value_count": {
+              "field": "commentId"
+            }
+          }
+        }
+      }
+    }
+  }
+  
+  

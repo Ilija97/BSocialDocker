@@ -1,0 +1,21 @@
+{
+  "name": "elasticsearch-microservice",
+  "version": "1.0.0",
+  "description": "Elasticsearch Microservice",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"No test specified\" && exit 0"
+  },
+  "keywords": [
+    "elasticsearch",
+    "microservice"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "dependencies": {
+    "@elastic/elasticsearch": "^8.12.1",
+    "express": "^4.18.2",
+    "kafka-node": "^5.0.0"
+  }
+}

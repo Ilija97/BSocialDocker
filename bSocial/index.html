@@ -1,0 +1,72 @@
+<!-- home.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>bSocial Home</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    #homePage {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    button {
+      margin: 10px 0;
+      padding: 8px;
+      cursor: pointer;
+      background-color: #ff6262;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Home Page -->
+  <div id="homePage">
+    <h2>Welcome to bSocial!</h2>
+
+     <!-- Container for Posts and Comments -->
+     <div id="postsContainer"></div>
+
+     <!-- JavaScript to fetch and display posts -->
+     <script src="post_script.js"></script>
+
+    <!-- Check if user is authenticated -->
+    <script>
+      const jwtToken = localStorage.getItem('jwtToken');
+
+      if (!jwtToken) {
+        document.write('<p>Please <a href="login.html">login</a> or <a href="register.html">register</a>.</p>');
+      } else {
+        // User is authenticated, show logout button
+        document.write('<button id="logoutBtn" onclick="logoutUser()">Logout</button>');
+      }
+    </script>
+  </div>
+
+  <script>
+    function logoutUser() {
+      // Clear the token from localStorage
+      localStorage.removeItem('jwtToken');
+
+      // Redirect to the login page
+      window.location.href = 'login.html';
+    }
+  </script>
+
+</body>
+</html>

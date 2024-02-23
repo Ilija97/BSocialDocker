@@ -1,0 +1,32 @@
+{
+    "size": 0,
+    "aggs": {
+      "latest_posts_per_user": {
+        "terms": {
+          "field": "userId",
+          "size": 100,  
+          "order": { "latest_post_timestamp": "desc" }
+        },
+        "aggs": {
+          "latest_post_timestamp": {
+            "max": {
+              "field": "timestamp"
+            }
+          },
+          "latest_post": {
+            "top_hits": {
+              "size": 1,
+              "sort": [
+                {
+                  "timestamp": {
+                    "order": "desc"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+  

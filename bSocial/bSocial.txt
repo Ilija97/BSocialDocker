@@ -1,0 +1,45 @@
+node dist/index.js
+https://github.com/Ilija97/bSocial
+http://localhost:3000/docs/
+http://localhost:3001/docs/
+http://localhost:9200/
+
+1.run zookeeper
+bin\zkServer.cmd
+
+2.run kafka
+.\bin\windows\kafka-server-start.bat .\config\server.properties
+
+3.create topic
+.\bin\windows\kafka-topics.bat --create --topic topicName --bootstrap-server localhost:9092
+
+4.create consumer
+.\bin\windows\kafka-console-consumer.bat --topic userRegistrationTopic--from-beginning --bootstrap-server localhost:9092
+.\bin\windows\kafka-console-consumer.bat --topic postTopic --from-beginning --bootstrap-server localhost:9092
+.\bin\windows\kafka-console-consumer.bat --topic commentTopic --from-beginning --bootstrap-server localhost:9092
+
+5.elastic search
+bin\elasticsearch.bat
+elasticsearch-users useradd ilija -p ilijaG -r network,monitoring
+
+
+curl -u ilija:ilijaG -X PUT "http://localhost:9200/bsocial"
+
+curl -u ilija:ilijaG -X POST -H "Content-Type: application/json"-d @query2.json http://localhost:9200/bsocial/_search
+
+curl -X GET "http://localhost:9200/bsocial/_search" -H "Content-Type: application/json" -u ilija:ilijaG
+
+curl -X GET "http://localhost:9200/comment/_mapping" -u ilija:ilijaG
+
+
+docker-machine ip default
+
+bsocial-image
+docker build -t bsocial-image .
+docker run -p 3002:3002 --name bsocial-container bsocial-image
+
+docker build -t elasticsearch-image .
+docker run -p 3002:3002 --name elasticsearch-container elasticsearch-image
+
+docker build -t notifications-image .
+docker run -p 3002:3002 --name elasticsearch-container notifications-image
