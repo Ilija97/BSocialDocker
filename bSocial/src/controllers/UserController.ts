@@ -93,7 +93,13 @@ class UserController {
       }
 
       // Create JWT token
-      const token = jwt.sign({ userId: user.id, username: user.username }, 'your_secret_key', {
+      const secretKey = process.env.JWT_SECRET;
+
+      if (!secretKey) {
+        throw new Error('JWT secret key is not defined');
+      }
+
+      const token = jwt.sign({ userId: user.id, username: user.username }, secretKey, {
         expiresIn: '1h', // Adjust the expiration time as needed
       });
 
@@ -107,7 +113,8 @@ class UserController {
 
   static async logout(req: Request, res: Response): Promise<void> {
     try {
-      // Your logout logic here
+      // TODO: invalidate JWT
+
       res.status(200).json({ message: 'User logged out successfully' });
     } catch (error) {
       console.error(error);

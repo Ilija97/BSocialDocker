@@ -103,10 +103,12 @@ router.post('/login', loginValidator, UserController.login);
  *     responses:
  *       200:
  *         description: User logged out successfully
+ *       401:
+ *         description: Unathorized
  *       500:
  *         description: Internal Server Error
  */
-router.post('/logout', UserController.logout);
+router.post('/logout', authenticateUser, UserController.logout);
 
 /**
  * @swagger
