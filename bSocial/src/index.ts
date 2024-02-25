@@ -61,3 +61,5 @@ createConnection().then(async connection => {
   });
 }).catch(error => console.log('TypeORM connection error: ', error));
 
+export default app;
+

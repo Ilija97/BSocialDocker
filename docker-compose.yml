@@ -25,7 +25,6 @@ services:
     depends_on:
       - kafka
       - zookeeper
-    command: ["dockerize", "-wait", "tcp://kafka:9092", "-timeout", "60s", "npm", "start"]
     ports:
       - "3000:3000"
     environment:
@@ -36,7 +35,6 @@ services:
     depends_on:
       - kafka
       - zookeeper
-    command: ["dockerize", "-wait", "tcp://kafka:9092", "-timeout", "60s", "npm", "start"]
     ports:
       - "3001:3001"
     environment:
