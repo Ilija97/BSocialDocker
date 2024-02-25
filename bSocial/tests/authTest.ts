@@ -23,7 +23,7 @@ describe("Auth Testing", () => {
         "password": "Passw0rd"
     };
     try {
-      const res = await axios.post('http://192.168.99.100:3000/users/register', userPayload); 
+      const res = await axios.post('http://localhost:3000/users/register', userPayload); 
 
       expect(res.status).to.equal(201);
 
@@ -39,7 +39,7 @@ describe("Auth Testing", () => {
         "password": "Passw0rd"
     };
     try {
-      const res = await axios.post('http://192.168.99.100:3000/users/login', userPayload); 
+      const res = await axios.post('http://localhost:3000/users/login', userPayload); 
 
       expect(res.status).to.equal(200);
       expect(res.data).to.have.property('token');

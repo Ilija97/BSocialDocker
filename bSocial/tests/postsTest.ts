@@ -20,7 +20,7 @@ describe("Post Testing", () => {
     };
 
     try {
-      const loginResponse = await axios.post('http://192.168.99.100:3000/users/login', loginPayload);
+      const loginResponse = await axios.post('http://localhost:3000/users/login', loginPayload);
       expect(loginResponse.status).to.equal(200);
       expect(loginResponse.data).to.have.property('token');
 
@@ -36,15 +36,15 @@ describe("Post Testing", () => {
     await cleanupDatabase();
   });
 
-  it('should posts', async () => {
+  it('should create a posts', async () => {
     const userPayload = {
       "message": "post content"
     };
     const headers = {
-      Authorization: `Bearer ${authToken}` // Include the JWT token
+      Authorization: `Bearer ${authToken}` 
     }
     try {
-      const res = await axios.post('http://192.168.99.100:3000/posts', userPayload, {headers}); 
+      const res = await axios.post('http://localhost:3000/posts', userPayload, {headers}); 
 
       expect(res.status).to.equal(201);
 
@@ -54,12 +54,12 @@ describe("Post Testing", () => {
     }
   });
 
-  it('should get posts from followed users', async () => {
+  it('should get posts', async () => {
     const headers = {
-      Authorization: `Bearer ${authToken}` // Include the JWT token
+      Authorization: `Bearer ${authToken}` 
     }
     try {
-      const res = await axios.get('http://192.168.99.100:3000/posts', {headers}); 
+      const res = await axios.get('http://localhost:3000/posts', {headers}); 
 
       expect(res.status).to.equal(200);
       expect(res.data).to.be.an('array');
