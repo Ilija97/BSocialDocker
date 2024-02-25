@@ -24,6 +24,7 @@ BSocial is a microservices-based project that provides social networking functio
    cd BSocial
 2. **Start the microservices using Docker Compose**
     ```bash
+    docker-compose build
     docker-compose up
 
 ## API Documentation
