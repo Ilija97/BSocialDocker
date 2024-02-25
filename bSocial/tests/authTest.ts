@@ -5,7 +5,7 @@ import 'mocha';
 import { startTransaction, rollbackTransaction, cleanupDatabase } from './test-helpers';
 
 
-describe("API Testing", () => {
+describe("Auth Testing", () => {
   beforeEach(async () => {
     await startTransaction();
   });

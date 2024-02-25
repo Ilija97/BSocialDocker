@@ -33,7 +33,7 @@ export async function cleanupDatabase() {
   // Implement cleaning up the database after each test
   // For example, you can delete data from specific tables or perform other cleanup tasks
   // Note: Adjust this based on your actual database schema and cleanup requirements
-  const tablesToCleanup = ['user', 'comment', 'post', 'user_following_user'];
+  const tablesToCleanup = ['user', 'comment', 'post', 'user_followers_user'];
 
   const deletePromises = tablesToCleanup.map((table) => {
     return new Promise<void>((resolve, reject) => {

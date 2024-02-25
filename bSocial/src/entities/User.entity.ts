@@ -41,6 +41,5 @@ export class User {
   followers?: User[];
 
   @ManyToMany(() => User, user => user.followers)
-  @JoinTable()
   following?: User[];
 }
