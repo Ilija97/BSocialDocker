@@ -12,17 +12,17 @@ export class Post {
   @Column()
   message!: string;
 
-  @Column({ type: 'datetime', default: () => 'CURRENT_TIMESTAMP' }) // Change to datetime
+  @Column({ type: 'datetime', default: () => 'CURRENT_TIMESTAMP' }) 
   timestamp!: Date;
 
   @Column({ type: 'int' })
-  userId!: number; // Store the userId
+  userId!: number;
 
   @ManyToOne(() => User, user => user.posts)
-  @JoinColumn({ name: 'userId' }) // Use 'userId' as the foreign key column
+  @JoinColumn({ name: 'userId' }) 
   user!: User;
 
   @OneToMany(() => Comment, comment => comment.post)
-  @JoinColumn() // Add this line
+  @JoinColumn() 
   comments?: Comment[];
 }

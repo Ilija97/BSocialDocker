@@ -12,20 +12,20 @@ export class Comment {
   @Column()
   message!: string;
 
-  @Column({ type: 'datetime', default: () => 'CURRENT_TIMESTAMP' }) // Change to datetime
+  @Column({ type: 'datetime', default: () => 'CURRENT_TIMESTAMP' }) 
   timestamp!: Date;
 
   @ManyToOne(() => User, user => user.comments)
-  @JoinColumn({ name: 'userId' }) // Use 'userId' as the foreign key column
+  @JoinColumn({ name: 'userId' })
   user!: User;
 
   @ManyToOne(() => Post, post => post.comments)
-  @JoinColumn({ name: 'postId' }) // Use 'postId' as the foreign key column
+  @JoinColumn({ name: 'postId' }) 
   post!: Post;
 
-  @Column({ type: 'int' }) // Add a column for userId
+  @Column({ type: 'int' })
   userId!: number;
 
-  @Column({ type: 'int' }) // Add a column for postId
+  @Column({ type: 'int' }) 
   postId!: number;
 }

@@ -60,7 +60,6 @@ class PostsController {
         const { message } = req.body;
         const user = req.user;
   
-        // Authorization check
         if (!user) {
           res.status(401).json({ error: 'Unauthorized' });
           return;
@@ -69,8 +68,6 @@ class PostsController {
         const post = new Post();
         post.message = message;
         post.userId = user.userId;
-  
-        // Set timestamp to the current date and time
         post.timestamp = new Date();
   
         await getRepository(Post).save(post);
@@ -102,7 +99,6 @@ class PostsController {
             const postId = parseInt(req.params.postId, 10);
 
             if (isNaN(postId)) {
-              // Handle the case where postId is not a valid integer
               res.status(400).json({ error: 'Invalid postId' });
               return;
             }
@@ -125,7 +121,6 @@ class PostsController {
             return;
           }
     
-          // Check if the logged-in user is the owner of the post
           if (post.user.id !== user.id) {
             res.status(403).json({ error: 'Forbidden' });
             return;
@@ -140,10 +135,8 @@ class PostsController {
         }
       }
     
-      // Apply authentication middleware to protect certain routes
       applyAuthMiddleware(app: any): void {
         app.use('/posts', authenticateUser);
       }
     }
-   
     export default PostsController;

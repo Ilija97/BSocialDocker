@@ -38,7 +38,6 @@ class UserController {
           return;
       }
 
-      // Create user
       const user = new User(
         firstName,
         lastName,
@@ -47,12 +46,14 @@ class UserController {
         hashedPassword,
       );
 
-      // Save user to SQL database
       await getRepository(User).save(user);
 
-      // Create JWT token
-      const token = jwt.sign({ userId: user.id, username: user.username }, 'your_secret_key', {
-        expiresIn: '12h', // Adjust the expiration time as needed
+      const secretKey = process.env.JWT_SECRET;
+      if (!secretKey) {
+        throw new Error('JWT secret key is not defined');
+      }
+      const token = jwt.sign({ userId: user.id, username: user.username }, secretKey, {
+        expiresIn: process.env.JWT_EXPIRE, // Adjust the expiration time as needed
       });
 
       const kafkaMessage = {
@@ -92,7 +93,6 @@ class UserController {
         return;
       }
 
-      // Create JWT token
       const secretKey = process.env.JWT_SECRET;
 
       if (!secretKey) {
@@ -100,7 +100,7 @@ class UserController {
       }
 
       const token = jwt.sign({ userId: user.id, username: user.username }, secretKey, {
-        expiresIn: '1h', // Adjust the expiration time as needed
+        expiresIn: process.env.JWT_EXPIRE, 
       });
 
       res.status(200).json({ message: 'Login successful', token });
@@ -130,11 +130,10 @@ class UserController {
         res.status(401).json({ error: 'Unauthorized' });
         return;
       }
-      const userId = req.user.userId; // Assuming you have authentication middleware setting the user in the request
+      const userId = req.user.userId; 
 
       const userRepository = getRepository(User);
 
-      // Find the users
       const userToFollow = await userRepository.findOne({
         where: { id: userIdToFollow }
       });
@@ -149,7 +148,6 @@ class UserController {
         return;
       }
 
-      // Check if the user is already following
       const isAlreadyFollowing = currentUser.following?.some(user => user.id === userToFollow.id);
 
       if (isAlreadyFollowing) {
@@ -157,7 +155,6 @@ class UserController {
         return;
       }
 
-      // Add the user to follow to the current user's following list
       currentUser.following?.push(userToFollow);
       await userRepository.save(currentUser);
 

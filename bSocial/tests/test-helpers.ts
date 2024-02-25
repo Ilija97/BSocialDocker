@@ -1,8 +1,6 @@
 import sqlite3 from 'sqlite3';
 
-const dbPath = 'database.sqlite'; // Use an in-memory database for testing, change this to your actual SQLite database path
-
-// Initialize the SQLite database connection
+const dbPath = 'database.sqlite'; 
 const db = new sqlite3.Database(dbPath);
 
 export async function startTransaction() {
@@ -30,9 +28,6 @@ export async function rollbackTransaction() {
 }
 
 export async function cleanupDatabase() {
-  // Implement cleaning up the database after each test
-  // For example, you can delete data from specific tables or perform other cleanup tasks
-  // Note: Adjust this based on your actual database schema and cleanup requirements
   const tablesToCleanup = ['user', 'comment', 'post', 'user_followers_user'];
 
   const deletePromises = tablesToCleanup.map((table) => {

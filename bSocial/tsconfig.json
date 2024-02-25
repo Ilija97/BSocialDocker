@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es2018",                 // Use a newer ECMAScript version
+    "target": "es2018",                 
     "module": "commonjs",
     "outDir": "./dist",
     "rootDir": "./src",
@@ -14,9 +14,9 @@
   },
   "include": ["src/**/*.ts"],
   "exclude": ["node_modules"],
-  "resolveJsonModule": true,            // Enable JSON imports in TypeScript
-  "esModuleInterop": true,              // Enable esModuleInterop globally
-  "skipLibCheck": true                  // Skip type checking of declaration files
+  "resolveJsonModule": true,            
+  "esModuleInterop": true,              
+  "skipLibCheck": true                  
 }
 
   

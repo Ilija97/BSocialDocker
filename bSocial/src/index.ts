@@ -15,10 +15,11 @@ const swaggerUi = require('swagger-ui-express');
 
 const options = {
   definition: {
-    openapi: '3.0.0', // Specification (optional, defaults to swagger: '2.0')
+    openapi: '3.0.0', 
     info: {
-      title: 'Your API', // Title (required)
-      version: '1.0.0', // Version (required)
+      title: 'BSocial', 
+      version: '1.0.0', 
+      author: 'Ilija Gracanin'
     },
     security: [{ JWT: [] }],
     components: {
@@ -32,7 +33,6 @@ const options = {
       },
     },
   },
-  // Paths to files containing OpenAPI definitions
   apis: ['./dist/routes/*.js'],
 };
 
@@ -45,7 +45,6 @@ app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 const port = process.env.PORT || 3000;
 
-// Create the database connection
 createConnection().then(async connection => {
   console.log('Connected to the database');
 

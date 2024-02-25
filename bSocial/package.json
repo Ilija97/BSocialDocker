@@ -6,7 +6,8 @@
   "scripts": {
     "test": "mocha",
     "start": "node dist/index.js",
-    "build": "tsc"
+    "build": "tsc",
+    "populate-db": "ts-node db_scripts/populate-db-script.ts"
   },
   "keywords": [],
   "author": "",

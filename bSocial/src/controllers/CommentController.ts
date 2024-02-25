@@ -21,11 +21,10 @@ class CommentController {
         return;
       }
 
-      // Retrieve comments for the specified post
       const comments = await getRepository(Comment).find({
         where: { postId: postId },
-        relations: ['user'], // Include user information if needed
-        order: { timestamp: 'DESC' } // Adjust the order based on your needs
+        relations: ['user'], 
+        order: { timestamp: 'DESC' } 
       });
 
       res.json(comments);
@@ -46,7 +45,6 @@ class CommentController {
         return;
       }
 
-      // Find the post based on postId
       const post = await getRepository(Post).findOne({
         where: { id: postId }
       });
@@ -56,20 +54,17 @@ class CommentController {
         return;
       }
 
-      // Create a new Comment instance
       const comment = new Comment();
       comment.message = message;
       comment.userId = user.userId;
       comment.post = post;
 
-      // Save the comment to the database
       await getRepository(Comment).save(comment);
 
       const currentUser = await getRepository(User).findOne({
         where: { id: user.userId }
       });
 
-      // Create Kafka message
       const kafkaMessage = {
         senderUsername: currentUser?.username,
         senderEmail: currentUser?.email,
@@ -81,7 +76,6 @@ class CommentController {
         authorId: comment.post.userId, //to whom the notification will be sent
       };
 
-      // Send Kafka message
       KafkaProducer.sendMessage('commentTopic', JSON.stringify(kafkaMessage));
 
       res.status(201).json({ message: 'Comment created successfully' });
