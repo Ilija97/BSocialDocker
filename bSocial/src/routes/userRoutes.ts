@@ -1,6 +1,7 @@
 import express from 'express';
 import UserController from '../controllers/UserController';
 import { authenticateUser } from '../middleware/authMiddleware';
+import { registerValidator, loginValidator } from '../validators/authValidators';
 
 const router = express.Router();
 
@@ -46,7 +47,7 @@ router.use(authenticateUser);
  *       500:
  *         description: Internal Server Error
  */
-router.post('/register', UserController.register);
+router.post('/register', registerValidator, UserController.register);
 
 
 /**
@@ -54,7 +55,7 @@ router.post('/register', UserController.register);
  * /users/login:
  *   post:
  *     summary: Login with username and password
- *     description: Login with a registered username and password and return a JWT token.
+ *     description: Login with a registered username(or email) and password and return a JWT token. 
  *     tags: [Authentication]
  *     requestBody:
  *       content:
@@ -90,7 +91,7 @@ router.post('/register', UserController.register);
  *       500:
  *         description: Internal Server Error
  */
-router.post('/login', authenticateUser, UserController.login);
+router.post('/login', loginValidator, UserController.login);
 
 /**
  * @swagger

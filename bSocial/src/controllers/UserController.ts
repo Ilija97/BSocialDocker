@@ -3,9 +3,7 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { getRepository, FindOneOptions } from 'typeorm';
 import { User } from '../entities/User.entity';
-import { Producer, KafkaClient, Message } from 'kafka-node';
-import { Post } from '../entities/Post.entity';
-import { Comment } from '../entities/Comment.entity';
+import { validationResult } from 'express-validator';
 import { AuthenticatedRequest } from '../customTypes';
 import KafkaProducer from '../services/kafkaProducer';
 
@@ -15,10 +13,30 @@ class UserController {
     try {
       const { firstName, lastName, username, email, password, passwordConfirmation } = req.body;
 
-      // Validation
+      // Validation using express-validator
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+          res.status(400).json({ errors: errors.array() });
+          return;
+      }
 
-      // Hash password
       const hashedPassword = await bcrypt.hash(password, 10);
+
+      const existingUser = await getRepository(User).findOne({
+        where: { username }, 
+      } as FindOneOptions<User>);
+      if (existingUser) {
+          res.status(400).json({ errors: [{ msg: 'Username is already taken.' }] });
+          return;
+      }
+    
+      const existingUser_ = await getRepository(User).findOne({
+        where: { email }, 
+      } as FindOneOptions<User>);
+      if (existingUser_) {
+          res.status(400).json({ errors: [{ msg: 'User with this email already exists.' }] });
+          return;
+      }
 
       // Create user
       const user = new User(
@@ -59,8 +77,14 @@ class UserController {
     try {
       const { username, password } = req.body;
 
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+          res.status(400).json({ errors: errors.array() });
+          return;
+      }
+
       const user = await getRepository(User).findOne({
-        where: { username }, // Ensure that username is a property in your User entity
+        where: [{ username }, { email: username }],
       } as FindOneOptions<User>);
       
       if (!user || !(await bcrypt.compare(password, user.password))) {
