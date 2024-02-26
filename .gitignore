@@ -4,9 +4,6 @@ node_modules/
 # Ignore distribution files
 dist/
 
-# Ignore environment files
-*.env
-
 # Ignore logs and other temporary files
 *.log
 *.tmp
