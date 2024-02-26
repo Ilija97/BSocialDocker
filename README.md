@@ -18,9 +18,9 @@ BSocial is a microservices-based project that provides social networking functio
 ## Getting Started
 Database is prepopulated with 5 users each of them having 5 posts. Usernames are "user1", "user2", "user3", "user4" and "user5". Password for all of them is "Pa$$w0rd".
 To run the script use
-```bash
-npm run populate-db
-
+   ```bash
+   npm run populate-db
+```
 1. **Clone the repository:**
 
    ```bash
