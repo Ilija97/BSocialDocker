@@ -1,5 +1,3 @@
-// src/entities/Post.entity.ts
-
 import { Entity, PrimaryGeneratedColumn,JoinColumn, Column, CreateDateColumn, ManyToOne, OneToMany } from 'typeorm';
 import { User } from './User.entity';
 import { Comment } from './Comment.entity';

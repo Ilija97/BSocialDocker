@@ -2,17 +2,17 @@ const kafka = require('kafka-node');
 const { Client } = require('@elastic/elasticsearch');
 const express = require('express');
 const bodyParser = require('body-parser');
-const axios = require('axios');
 
 const app = express();
 const port = 3002;
+
 
 // Kafka Consumer setup
 const kafkaClientOptions = { kafkaHost: process.env.KAFKA_BROKERCONNECT || 'localhost:9092' };
 const topics = ['postTopic', 'commentTopic', 'userRegistrationTopic'];
 const kafkaConsumerOptions = { groupId: 'your-group-id', autoCommit: true, autoCommitIntervalMs: 5000 };
-
 const kafkaConsumer = new kafka.ConsumerGroup(kafkaClientOptions, topics, kafkaConsumerOptions);
+
 
 // Elasticsearch Client setup
 const elasticsearchHost = process.env.ELASTICSEARCH_HOST || 'http://localhost:9200';
@@ -32,7 +32,7 @@ createIndex('comment');
 // Middleware for parsing JSON
 app.use(bodyParser.json());
 
-// Listen for incoming messages from Kafka
+
 kafkaConsumer.on('message', async (message) => {
   try {
     const parsedMessage = JSON.parse(JSON.parse(message.value));
@@ -47,11 +47,9 @@ kafkaConsumer.on('message', async (message) => {
     } else if (topic === 'userRegistrationTopic') {
       elasticsearchIndex = 'user';
     } else {
-      // Handle other topics if needed
       elasticsearchIndex = 'default_index';
     }
 
-    // Index the message in the dynamically determined Elasticsearch index
     await esClient.index({
       index: elasticsearchIndex,
       body: parsedMessage,
@@ -63,12 +61,11 @@ kafkaConsumer.on('message', async (message) => {
   }
 });
 
-// Handle errors
 kafkaConsumer.on('error', (error) => {
   console.error('Kafka Consumer Error:', error);
 });
 
-// Handle process termination
+
 process.on('SIGINT', () => {
   console.log('Closing Kafka consumer and Elasticsearch client.');
   kafkaConsumer.close(true, () => {
@@ -77,7 +74,7 @@ process.on('SIGINT', () => {
   });
 });
 
-// Start the Express server
+
 app.listen(port, () => {
   console.log(`Microservice listening on port ${port}`);
 });

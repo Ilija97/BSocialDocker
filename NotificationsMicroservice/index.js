@@ -1,6 +1,4 @@
 const express = require('express');
-const bodyParser = require('body-parser');
-const { KafkaConsumer } = require('kafka-node');
 const { prepareNotificationMessage, getAuthorIdFromNotification } = require('./utils');
 const swaggerJsdoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
@@ -10,30 +8,27 @@ const router = express.Router();
 const port = 3001;
 const kafka = require('kafka-node');
 
+
 // Kafka configuration
 const kafkaClientOptions = { kafkaHost: process.env.KAFKA_BROKERCONNECT || 'localhost:9092' };
 const topics = ['commentTopic'];
 const kafkaConsumerOptions = { groupId: 'your-group-id', autoCommit: true, autoCommitIntervalMs: 5000 };
-
-// Create Kafka consumer
 const kafkaConsumer = new kafka.ConsumerGroup(kafkaClientOptions, topics, kafkaConsumerOptions);
 
-// Listen for incoming messages
 kafkaConsumer.on('message', (message) => {
-  // Handle incoming comments
   console.log('Received comment:', message.value);
-
-  // Send notifications
   sendNotification(message.value);
 });
 
+kafkaConsumer.on('error', (error) => {
+  console.error('Kafka Consumer Error:', error);
+});
 
+
+// Notifications 
 let unsentNotifications = [];
-
-// Function to send notifications (customize as needed)
 async function sendNotification(comment) {
   try {
-    // Implement the logic to send notifications
     console.log('Sending notification:', comment);
     unsentNotifications.push(comment);
   } catch (error) {
@@ -41,18 +36,14 @@ async function sendNotification(comment) {
   }
 }
 
-// Handle errors
-kafkaConsumer.on('error', (error) => {
-  console.error('Kafka Consumer Error:', error);
-});
 
-// Handle process termination
 process.on('SIGINT', () => {
   console.log('Closing Kafka consumer.');
   kafkaConsumer.close(true, () => {
     process.exit();
   });
 });
+
 
 
 // Routes
@@ -124,7 +115,8 @@ router.get('/unsent-notifications', async (req, res) => {
 
 app.use('/', router);
 
-// Swagger setup
+
+//Swagger configuration
 const swaggerOptions = {
   definition: {
     openapi: '3.0.0',
@@ -135,12 +127,10 @@ const swaggerOptions = {
   },
   apis: ['index.js'], 
 };
-
 const swaggerSpec = swaggerJsdoc(swaggerOptions);
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 
-// Start Express server
 app.listen(port, () => {
   console.log(`Notification service listening at http://localhost:${port}`);
 });

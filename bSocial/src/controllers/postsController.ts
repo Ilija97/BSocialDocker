@@ -16,7 +16,6 @@ class PostsController {
 
       const currentUserId = req.user.userId;
 
-      // Find the current user
       const currentUser = await getRepository(User).findOne({
         where: { id: currentUserId },
         relations: ['following'],
@@ -33,11 +32,8 @@ class PostsController {
       // Pagination parameters
       const limit = parseInt(req.query.limit as string, 10) || 10; // Default limit to 10 if not provided
       const page = parseInt(req.query.page as string, 10) || 1; // Default page to 1 if not provided
-
-      // Calculate the offset based on the limit and page
       const offset = (page - 1) * limit;
 
-      // Find posts with pagination
       const options: FindManyOptions<Post> = {
         where: { userId: In(userIds) },
         relations: ['user', 'comments'],

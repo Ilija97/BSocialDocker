@@ -45,7 +45,6 @@ services:
       KAFKA_BROKERCONNECT: "kafka:9092"
 
   elasticsearch-microservice:
-    # image: elasticsearch-image
     build: ./ElasticSearchMicroservice
     depends_on:
       - kafka
