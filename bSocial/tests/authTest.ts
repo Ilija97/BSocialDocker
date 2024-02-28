@@ -2,7 +2,7 @@ import nock from "nock";
 import axios from 'axios';
 import { expect } from "chai";
 import 'mocha';
-import { startTransaction, rollbackTransaction, cleanupDatabase } from './test-helpers';
+import { startTransaction, rollbackTransaction, cleanupDatabase } from './testHelpers';
 
 
 describe("Auth Testing", () => {
@@ -20,7 +20,7 @@ describe("Auth Testing", () => {
         "lastName": "Surname",
         "username": "username",
         "email": "user@gmail.com",
-        "password": "Passw0rd"
+        "password": "Pa$$w0rd"
     };
     try {
       const res = await axios.post('http://localhost:3000/users/register', userPayload); 
@@ -35,8 +35,8 @@ describe("Auth Testing", () => {
 
   it('should log the user', async () => {
     const userPayload = {
-        "username": "username",
-        "password": "Passw0rd"
+        "username": "user1",
+        "password": "Pa$$w0rd"
     };
     try {
       const res = await axios.post('http://localhost:3000/users/login', userPayload); 

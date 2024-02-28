@@ -14,8 +14,8 @@ describe("Post Testing", () => {
 
     // Log in the user and obtain the token
     const loginPayload = {
-      "username": "username",
-      "password": "Passw0rd"
+      "username": "user1",
+      "password": "Pa$$w0rd"
     };
 
     try {
