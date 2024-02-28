@@ -21,6 +21,15 @@ class CommentController {
         return;
       }
 
+      const post = await getRepository(Post).findOne({
+        where: { id: postId }
+      });
+
+      if (!post) {
+        res.status(404).json({ error: 'Post not found' });
+        return;
+      }
+
       const comments = await getRepository(Comment).find({
         where: { postId: postId },
         relations: ['user'], 
