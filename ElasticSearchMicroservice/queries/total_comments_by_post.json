@@ -1,31 +1,40 @@
 {
-    "size": 0,
-    "query": {
-      "range": {
-        "timestamp": {
-          "gte": "now-10d/d",
-          "lt": "now"
-        }
+  "size": 0,
+  "query": {
+    "range": {
+      "timestamp": {
+        "gte": "now-10d/d",
+        "lt": "now"
       }
-    },
-    "aggs": {
-      "total_comments_by_post": {
-        "date_histogram": {
-          "field": "timestamp",
-          "fixed_interval": "1d", 
-          "format": "yyyy-MM-dd",
-          "order": { "_count": "desc" },
-          "min_doc_count": 1
-        },
-        "aggs": {
-          "total_comments": {
-            "value_count": {
-              "field": "commentId"
+    }
+  },
+  "aggs": {
+    "top_posts_per_day": {
+      "date_histogram": {
+        "field": "timestamp",
+        "fixed_interval": "1d",
+        "format": "yyyy-MM-dd",
+        "order": { "_count": "desc" },
+        "min_doc_count": 1
+      },
+      "aggs": {
+        "top_posts": {
+          "terms": {
+            "field": "postId",
+            "size": 10,  
+            "order": { "_count": "desc" }
+          },
+          "aggs": {
+            "total_comments": {
+              "value_count": {
+                "field": "commentId"
+              }
             }
           }
         }
       }
     }
   }
+}
   
   
