@@ -50,7 +50,7 @@ services:
       - kafka
       - zookeeper
       - elasticsearch
-    command: ["dockerize", "-wait", "tcp://elasticsearch:9200", "-timeout", "60s", "npm", "start"]
+    command: ["dockerize", "-wait", "tcp://elasticsearch:9200", "-timeout", "600s", "npm", "start"]
     ports:
       - "3002:3002"
     environment:
