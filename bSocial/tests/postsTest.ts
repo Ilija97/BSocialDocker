@@ -2,7 +2,7 @@ import nock from "nock";
 import axios from 'axios';
 import { expect } from "chai";
 import 'mocha';
-import { startTransaction, rollbackTransaction, cleanupDatabase } from './test-helpers';
+import { startTransaction, rollbackTransaction, cleanupDatabase } from './testHelpers';
 
 
 let authToken: string;
