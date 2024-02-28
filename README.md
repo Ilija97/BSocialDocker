@@ -25,7 +25,8 @@ To run the script again use:
 
    ```bash
    git clone https://github.com/Ilija97/BSocialDocker.git
-   cd BSocial
+   cd BSocialDocker
+   
 2. **Start the microservices using Docker Compose**
     ```bash
     docker-compose build
