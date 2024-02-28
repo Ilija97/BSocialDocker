@@ -2,7 +2,7 @@ import nock from "nock";
 import axios from 'axios';
 import { expect } from "chai";
 import 'mocha';
-import { startTransaction, rollbackTransaction, cleanupDatabase } from './testHelpers';
+import { startTransaction, rollbackTransaction } from './testHelpers';
 
 
 describe("Auth Testing", () => {
@@ -11,7 +11,6 @@ describe("Auth Testing", () => {
   });
   afterEach(async () => {
     await rollbackTransaction();
-    await cleanupDatabase();
   });
   
   it('should register a new user', async () => {

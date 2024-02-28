@@ -2,7 +2,7 @@ import nock from "nock";
 import axios from 'axios';
 import { expect } from "chai";
 import 'mocha';
-import { startTransaction, rollbackTransaction, cleanupDatabase } from './testHelpers';
+import { startTransaction, rollbackTransaction } from './testHelpers';
 
 
 let authToken: string;
@@ -32,7 +32,6 @@ describe("Post Testing", () => {
 
   afterEach(async () => {
     await rollbackTransaction();
-    await cleanupDatabase();
   });
 
   it('should create a posts', async () => {
