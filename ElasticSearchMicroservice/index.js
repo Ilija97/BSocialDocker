@@ -9,9 +9,9 @@ const port = 3002;
 
 
 // Kafka Consumer setup
-const kafkaClientOptions = { kafkaHost: process.env.KAFKA_BROKERCONNECT || 'localhost:9092' };
+const kafkaClientOptions = { kafkaHost: process.env.KAFKA_BROKERCONNECT || 'localhost:9092', groupId: 'elasticsearch-group-id'};
 const topics = ['postTopic', 'commentTopic', 'userRegistrationTopic'];
-const kafkaConsumerOptions = { groupId: 'your-group-id', autoCommit: true, autoCommitIntervalMs: 5000 };
+const kafkaConsumerOptions = { autoCommit: true, autoCommitIntervalMs: 5000 };
 const kafkaConsumer = new kafka.ConsumerGroup(kafkaClientOptions, topics, kafkaConsumerOptions);
 
 

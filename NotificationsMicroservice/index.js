@@ -10,9 +10,9 @@ const kafka = require('kafka-node');
 
 
 // Kafka configuration
-const kafkaClientOptions = { kafkaHost: process.env.KAFKA_BROKERCONNECT || 'localhost:9092' };
+const kafkaClientOptions = { kafkaHost: process.env.KAFKA_BROKERCONNECT || 'localhost:9092', groupId: 'notification-group-id' };
 const topics = ['commentTopic'];
-const kafkaConsumerOptions = { groupId: 'your-group-id', autoCommit: true, autoCommitIntervalMs: 5000 };
+const kafkaConsumerOptions = { autoCommit: true, autoCommitIntervalMs: 5000 };
 const kafkaConsumer = new kafka.ConsumerGroup(kafkaClientOptions, topics, kafkaConsumerOptions);
 
 kafkaConsumer.on('message', (message) => {
